@@ -14,14 +14,11 @@ from tqdm import tqdm
 from model import est_model
 
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-n_epoch = 2500
+n_epoch = 2000
 lr = 5e-5
-RESULT_TRAIN = []
 root = '../data/'
-log_train = open('../log/train_log_fn_8.txt', 'w')
 
 def train(model, n_epoch, training_data, loss_fn, optimizer):
-    log_train.write(time.strftime('%Y-%m-%d %H:%M:%S') + '\n')
     for epoch in tqdm(range(n_epoch)):
         total_loss_train = 0
         for batch, (data, labels) in enumerate(training_data):
@@ -37,8 +34,6 @@ def train(model, n_epoch, training_data, loss_fn, optimizer):
         total_loss_train = total_loss_train / len(training_data)
         res_e = 'Epoch: [{}/{}], training loss: {:6f}'.format(epoch, n_epoch, total_loss_train)
         tqdm.write(res_e)
-        log_train.write(res_e + '\n')
-        RESULT_TRAIN.append([n_epoch, total_loss_train])
     return model
 
 
@@ -52,6 +47,3 @@ if __name__ == '__main__':
     optimizer = optim.Adamax(model.parameters(), lr=lr)
     model = train(model=model, n_epoch=n_epoch, training_data=training_data, loss_fn=loss_fn, optimizer=optimizer)
     torch.save(model.state_dict(), "../checkpoints/model_fn_8.pth")
-    log_train.close()
-    res_train = np.asarray(RESULT_TRAIN)
-    np.savetxt("../log/res_train.csv", res_train, fmt='%.6f', delimiter=",")
