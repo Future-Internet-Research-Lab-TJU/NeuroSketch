@@ -12,6 +12,7 @@ _IEEE-ACM Transactions on Networking_
 - BF-Sketch: the data structure of BF-Sketch
 - Neuro_CM: the flow size estimation model of Neuro_CM
 - Neuro_CU: the flow size estimation model of Neuro_CU
+- BF: the flow cardinality estimation model of Neuro_CM
 - Ablation Study：the ablation study of Neuro_CM with and without the count of hash collisions
 ---
 
